@@ -6,6 +6,14 @@ const keys = require("../config/keys");
 // get the users model instance
 const User = mongoose.model("users");
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+passport.deserializeUser((id, done) => {
+  User.findById(id).then(user => {
+    done(null, user);
+  });
+});
 // create new instance of google strategy
 passport.use(
   new GoogleStrategy(
